@@ -3,6 +3,8 @@ from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 from database import collection
 from models import generate_code
+import os
+
 
 app = FastAPI()
 
@@ -41,7 +43,9 @@ def shorten_url(request: URLRequest):
         "clicks": 0
     })
 
-    return {"short_url": f"http://localhost:8000/{short_code}"}
+    BASE_URL = os.getenv("BASE_URL", "http://localhost:8000")
+
+    return {"short_url": f"{BASE_URL}/{short_code}"}
 
 # Redirect to original URL
 @app.get("/{short_code}")
@@ -82,7 +86,8 @@ def reset_database():
     return {"message": "All URLs deleted successfully"}
 
 #Stats API
-@app.get("/stats/{short_code}", operation_id="get_url_stats")
+@app.get("/stats/{short_code}", operation_id="get_url_stats")         
+
 def get_url_stats(short_code: str):
     data = collection.find_one({"short_code": short_code})
 
