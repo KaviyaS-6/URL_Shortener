@@ -1,5 +1,8 @@
+import os
 from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://skaviya:Kaviya%4023@url-shortener-cluster.9lqhait.mongodb.net/?retryWrites=true&w=majority")
+MONGO_URL = os.getenv("MONGO_URL")
+
+client = MongoClient(MONGO_URL)
 db = client["url_db"]
 collection = db["urls"]
