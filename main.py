@@ -5,7 +5,7 @@ from database import collection
 from models import generate_code
 import os
 
-
+print("Mongo URL exists:", os.getenv("MONGO_URL") is not None)
 app = FastAPI()
 
 
